@@ -58,6 +58,13 @@ public class Studente {
 		IdE = IdE + 1;
 	}
 	
+	public int NES() {
+		if (IdE != 0 ) {
+			return 1;
+		}
+		return 0;
+	}
+	
 	public String StampaMedia(int id) {
 		String esamiS;
 		float somma = 0;

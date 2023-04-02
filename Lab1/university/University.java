@@ -48,6 +48,7 @@ public class University {
 		studenti[ids-10000].RCognome(last);
 		ids++;
 		int idr = ids-1;
+		logger.info("New student enrolled: " + ids + ", " + first + " " + last);
 		return idr;
 	}
 	
@@ -66,6 +67,7 @@ public class University {
 		corsi[idc-10].NDocente(teacher);
 		idc++;
 		int idr = idc-1;
+		logger.info("New course activated: " + idc + ", " + title + " " + teacher);
 		return idr;
 	}
 	
@@ -88,6 +90,7 @@ public class University {
 		if (risposta2 == -1) {
 			System.out.println("Impossibile registrarsi");
 		}
+		logger.info("Student " + studentID + " signed up for course " + courseCode);
 	}
 	
 	
@@ -109,6 +112,7 @@ public class University {
 	public void exam(int studentId, int courseID, int grade) {
 		studenti[studentId-10000].AddExam(studentId, courseID, grade);
 		corsi[courseID-10].SetExam(studentId, courseID, grade);
+		logger.info("Student " + studentId + " took an exam in course " + courseID + " whit grade: " + grade);
 	}
 
 	
@@ -128,8 +132,13 @@ public class University {
 	
 	public String topThreeStudents() {
 		PtStud[] punteggi = new PtStud[ids-10000];
+		int contasuperi = 0;
 		PtStud comodo = new PtStud();
 		int i = 0;
+		for (i = 0; i<ids-10000 ;i++) {
+			int conta = studenti[i].NES();
+			contasuperi = contasuperi + conta;
+		}
 		for (i = 0; i<ids-10000 ;i++) {
 			punteggi[i] = new PtStud();
 			float punteggio = studenti[i].getPunteggio();
@@ -149,8 +158,15 @@ public class University {
 			}
 		}
 		String stringa = "";
-		for (int j = 0;j<3;j++) {
-			stringa = stringa + punteggi[j].GetNomeStud() + " " + punteggi[j].GetCognomeStud() + " : " + punteggi[j].GetPunteggioStud() + "\n";
+		if(contasuperi > 2) {
+			for (int j = 0;j<3;j++) {
+				stringa = stringa + punteggi[j].GetNomeStud() + " " + punteggi[j].GetCognomeStud() + " : " + punteggi[j].GetPunteggioStud() + "\n";
+			}
+		}
+		if(contasuperi < 3) {
+			for (int j = 0;j<contasuperi;j++) {
+				stringa = stringa + punteggi[j].GetNomeStud() + " " + punteggi[j].GetCognomeStud() + " : " + punteggi[j].GetPunteggioStud() + "\n";
+			}
 		}
 		return stringa;
 	}
@@ -158,5 +174,5 @@ public class University {
 // R7
     
     private final static Logger logger = Logger.getLogger("University");
-
+    
 }
